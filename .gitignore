@@ -4,3 +4,17 @@
 
 /src/PokeZork.Console/obj
 /src/.vs
+/src/PokeZork.Battle/bin/Debug/net10.0
+/src/PokeZork.Battle/obj
+/src/PokeZork.Battle/.vs/PokeZork.Battle.slnx
+/src/PokeZork.Common/bin/Debug/net10.0
+/src/PokeZork.Common/obj/Debug/net10.0
+/src/PokeZork.Console/bin/Debug/net10.0
+/src/PokeZork.Data/obj/Debug/net10.0
+/src/PokeZork.Data/obj
+/src/PokeZork.Common/obj
+/src/PokeZork.Game/bin/Debug/net10.0
+/src/PokeZork.Game/obj
+/src/PokeZork.Models/obj
+/src/PokeZork.TUIEngine/bin/Debug/net10.0
+/src/PokeZork.TUIEngine/obj

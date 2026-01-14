@@ -1,3 +1,11 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../notes/PokeZork.md" />
+  </Folder>
+  <Project Path="PokeZork.Battle/PokeZork.Battle.csproj" Id="a3d14c87-ba6b-4b86-a525-6c6a90c37789" />
+  <Project Path="PokeZork.Common/PokeZork.Common.csproj" Id="4cc9e84e-f65b-4a77-a019-fe8d8ed6b894" />
   <Project Path="PokeZork.Console/PokeZork.Console.csproj" />
+  <Project Path="PokeZork.Data/PokeZork.Data.csproj" Id="a02ca3d6-c0c9-4465-86de-cd1ce85b6a42" />
+  <Project Path="PokeZork.Game/PokeZork.GameEngine.csproj" Id="bd5629ca-1273-41f6-8806-421f011c1d61" />
+  <Project Path="PokeZork.TUIEngine/PokeZork.TUIEngine.csproj" Id="c52b09a9-0656-4b30-8ee4-0d03c39a428a" />
 </Solution>

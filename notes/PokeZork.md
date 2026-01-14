@@ -32,6 +32,7 @@ What do you do?
 1.) Get out of bed
 2.) Sleep In
 
+(if there's a if value set in the dialog go with @TRUE|Message Here|)
 
 if 1
 You jump out of the bed ready for your first day as a POKEMON TRAINER. (If Age is > 18 Add (Now is a better than later.)) Your room consist of the bed you were in, a PC, and a door leading down to the stairs. 
@@ -198,7 +199,9 @@ IF EAST
 After Player makes choice:
 
 "Good choice, wanna do a battle to test it out?" says PROF NOBODY. 
-1.) Sure
-2.) No,
+1.) Sure -> Enter battle scene
+2.) No, 
+
+
 
 

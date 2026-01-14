@@ -24,7 +24,8 @@ namespace PokeZork.Console
 
             }
             var option = mainScreen.PrintTitleMenu();
-            Game game = new Game(mainScreen);
+            string CampaignJsonPath = @"C:\Users\zombi\source\repos\PokeZork\src\PokeZork.Console\Campaign1.json";
+            Game game = new Game(mainScreen, CampaignJsonPath);
             switch (option)
             {
                 case 1:

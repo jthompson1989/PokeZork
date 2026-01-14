@@ -1,4 +1,5 @@
-﻿using PokeZork.Common.Enum;
+﻿using PokeZork.Common;
+using PokeZork.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,10 +13,24 @@ namespace PokeZork.GameEngine.CampaignModels
         //Use if no choices
         internal string NextDialog { get; set; } = string.Empty; //Example: "1:2:3"  
 
-        internal List<DialogChoices> Choices { get; set; } = new List<DialogChoices>();
+        internal List<DialogChoice> Choices { get; set; } = new List<DialogChoice>();
+
+        internal DialogModel ConvertToDialogModel()
+        {
+            DialogModel dialogModel = new DialogModel
+            {
+                DialogText = this.Text
+            };
+
+            foreach (var choice in this.Choices)
+            {
+                dialogModel.DialogChoices.Add(choice.ChoiceKey, choice.ChoiceText);
+            }
+            return dialogModel;
+        }
     }
 
-    internal class  DialogChoices
+    internal class  DialogChoice
     {
         internal int Id { get; set; }
         internal string ChoiceKey { get; set; } = string.Empty;

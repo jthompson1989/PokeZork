@@ -24,17 +24,6 @@ namespace PokeZork.Common.Enum
                 Tag.SLEPT_IN => "SLEPT_IN"
             };
         }
-
-        public static Tag FromFriendlyString(string str)
-        {
-            return str switch
-            {
-                "NO_POKEMON" => Tag.NO_POKEMON,
-                "PORN_ADDICT" => Tag.PORN_ADDICT,
-                "MOMMY_ISSUE" => Tag.MOMMY_ISSUE,
-                "SLEPT_IN" => Tag.SLEPT_IN,
-            };
-        }
     }
 }
 

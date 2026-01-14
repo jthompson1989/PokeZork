@@ -16,6 +16,27 @@ namespace PokeZork.Common.Enum
         SETITEMTAG,
         //GOTO a dialog: Parameter would be ChapterId:SceneId:DialogId Example 1:2:3
         GOTO,
-        POKEMONBATTLE
+        POKEMONBATTLE,
+        GAMEOVER
+    }
+
+    public static class CommandExtensions
+    {
+        public static string ToFriendlyString(this Command command)
+        {
+            return command switch
+            {
+                Command.ROLLDICE => "ROLLDICE",
+                Command.GIVEITEM => "GIVEITEM",
+                Command.TAKEITEM => "TAKEITEM",
+                Command.GETPOKEMON => "GETPOKEMON",
+                Command.HEALPOKEMON => "HEALPOKEMON",
+                Command.SETCHARACTERTAG => "SETCHARACTERTAG",
+                Command.SETITEMTAG => "SETITEMTAG",
+                Command.GOTO => "GOTO",
+                Command.POKEMONBATTLE => "POKEMONBATTLE",
+                Command.GAMEOVER => "GAMEOVER"
+            };
+        }
     }
 }

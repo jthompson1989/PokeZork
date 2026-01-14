@@ -1,0 +1,202 @@
+﻿{
+  "id": 1,
+  "name": "Main Campaign",
+  "chapters": [
+    {
+      "id": 1,
+      "title": "Adventure Start",
+      "scenes": [
+        {
+          "id": 1,
+          "title": "Welcome To the World of Pokemon",
+          "dialogs": [
+            {
+              "id": 1,
+              "text": "Hello there! Welcome to the world of POKEMON! My name is Professor Nobody.\nThis world is inhabited by creatures called POKEMON! For some people, POKEMON are pets. Others use them for fights.\r\nMyself...\r\nWell, I can't legally say.\n\n@PLAYERNAME! Your very own POKEMON legend is about to unfold! A world of dreams and adventures with POKEMON awaits!\nLet's go!",
+              "nextDialog": "1:2:2",
+              "choices": []
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "HOME BEDROOM",
+          "dialogs": [
+            {
+              "id": 2,
+              "text": "You wake up in your bedroom, today is the day to meetup with Prof Nobody to pick your first POKEMON.\nWhat do you do?",
+              "nextDialog": null,
+              "choices": [
+                {
+                  "id": 1,
+                  "key": "1",
+                  "text": "Get out of bed",
+                  "commands": [
+                    {
+                      "command": "GOTO",
+                      "value": "1:2:3"
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "key": "2",
+                  "text": "Sleep in",
+                  "commands": [
+                    {
+                      "command": "GOTO",
+                      "value": "1:2:4"
+                    },
+                    {
+                      "command": "SETCHARACTERTAG",
+                      "value": "0:SLEPT_IN"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "text": "You jump out of the bed ready for your first day as a POKEMON TRAINER. @ISADULTCOND|Now is better than later.|",
+              "nextDialog": "1:2:45",
+              "choices": []
+            },
+            {
+              "id": 4,
+              "text": "You sleep in another 2 hours. You get out of bed slowly, you're late for your first day as a POKEMON TRAINER.",
+              "nextDialog": "1:2:45",
+              "choices": []
+            },
+            {
+              "id": 45,
+              "text": "Your room consist of the bed you were in, a PC, and a door leading down to the stairs. \nWhat do you do?",
+              "nextDialog": null,
+              "choices": [
+                {
+                  "id": 3,
+                  "key": "1",
+                  "text": "Go to the PC and check it out",
+                  "commands": [
+                    {
+                      "command": "GOTO",
+                      "value": "1:2:5"
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "key": "2",
+                  "text": "Go down the stairs",
+                  "commands": [
+                    {
+                      "command": "GOTO",
+                      "value": "1:1:1"
+                    }
+                  ]
+                },
+                {
+                  "id": 5,
+                  "key": "3",
+                  "text": "Make a big jump down the stairs",
+                  "commands": [
+                    {
+                      "command": "GAMEOVER",
+                      "value": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "text": "You boot up your PC. \nWhat do you do?",
+              "nextDialog": null,
+              "choices": [
+                {
+                  "id": 6,
+                  "key": "1",
+                  "text": "Check Email",
+                  "commands": [
+                    {
+                      "command": "GOTO",
+                      "value": "1:2:6"
+                    }
+                  ]
+                },
+                {
+                  "id": 7,
+                  "key": "2",
+                  "text": "Play Minesweeper",
+                  "commands": [
+                    {
+                      "command": "GOTO",
+                      "value": "1:2:7"
+                    }
+                  ]
+                },
+                {
+                  "id": 8,
+                  "key": "3",
+                  "text": "Surf Pornhub",
+                  "minPlayerAge": 18,
+                  "commands": [
+                    {
+                      "command": "SETCHARACTERTAG",
+                      "value": "0:PORN_ADDICT"
+                    },
+                    {
+                      "command": "GOTO",
+                      "value": "1:2:8"
+                    }
+                  ]
+                },
+                {
+                  "id": 9,
+                  "key": "4",
+                  "text": "Leave Computer",
+                  "minPlayerAge": 18,
+                  "commands": [
+                    {
+                      "command": "GOTO",
+                      "value": "1:2:45"
+                    }
+                  ]
+                },
+                {
+                  "id": 10,
+                  "key": "3",
+                  "text": "Leave Computer",
+                  "maxPlayerAge": 17,
+                  "commands": [
+                    {
+                      "command": "GOTO",
+                      "value": "1:2:45"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "text": "Nobody emails you. You have no friends.",
+              "nextDialog": "1:2:5",
+              "choices": []
+            },
+            {
+              "id": 7,
+              "text": "You Play Minesweeper.",
+              "nextDialog": "1:2:5",
+              "choices": []
+            },
+            {
+              "id": 8,
+              "text": "You Play Minesweeper.",
+              "nextDialog": "1:2:5",
+              "choices": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -119,11 +119,9 @@ namespace PokeZork.TUIEngine
             }
             catch (PlatformNotSupportedException)
             {
-                // Running on non-Windows platform — leave defaults or handle fallback
             }
             catch (Exception)
             {
-                // Optional: log or handle other errors
             }
         }
 
@@ -179,7 +177,7 @@ namespace PokeZork.TUIEngine
         public void PrintGameInformation()
         {
             this.CurrentScreenMode = ScreenMode.HELP;
-            System.Console.WriteLine("""
+            this.DelayWrite("""
                 Throughout the game, the main inputs will be a number choice or direction choice. 
                 But input can take a few commands, as such:
                   POKEDEX -> Opens Pokedex 
@@ -211,16 +209,7 @@ namespace PokeZork.TUIEngine
             }
             System.Console.Write(">");
             var input = System.Console.ReadLine();
-            if (String.IsNullOrEmpty(input))
-            {
-                //GameEngine will handle error input
-                return "";
-            }
-            else
-            {
-                return dialog.DialogChoices.ContainsKey(input) 
-                    ? dialog.DialogChoices[input] : "";
-            }
+            return input ?? "";
             
         }
 

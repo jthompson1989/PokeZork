@@ -59,6 +59,40 @@ namespace PokeZork.Common.Managers
             }
         }
 
+        public bool AddChapterToCampaign(Campaign campaign, Chapter newChapter)
+        {
+            if (campaign == null)
+                throw new ArgumentNullException(nameof(campaign), "Campaign cannot be null.");
+            if (newChapter == null)
+                throw new ArgumentNullException(nameof(newChapter), "New chapter cannot be null.");
+            campaign.Chapters.Add(newChapter);
+            return true;
+        }
+
+        public bool SaveCampaignToJson(Campaign campaign)
+        {
+            if (campaign == null)
+                throw new ArgumentNullException(nameof(campaign), "Campaign cannot be null.");
+            string json;
+            try
+            {
+                json = JsonSerializer.Serialize(campaign, this._jsonOptions);
+            }
+            catch (JsonException ex)
+            {
+                throw new InvalidOperationException("Failed to serialize campaign to JSON.", ex);
+            }
+            try
+            {
+                File.WriteAllText(this._dataPath, json, Encoding.UTF8);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new IOException($"Failed to write campaign JSON to file '{this._dataPath}'.", ex);
+            }
+        }
+
 
     }
 }

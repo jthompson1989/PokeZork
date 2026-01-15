@@ -9,8 +9,7 @@ namespace PokeZork.Console
     {
         static void Main(string[] args)
         {
-            Screen mainScreen = new Screen();
-            mainScreen.DelayWrite("Welcome to PokeZork! Testing the delay write", 15);
+            ConsoleScreen mainScreen = new ConsoleScreen();
             if (OperatingSystem.IsWindows())
             {
                 try

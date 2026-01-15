@@ -34,7 +34,7 @@ namespace PokeZork.GameEngine
                 this._screen.Clear();
                 this._screen.Write("Creating new player character...");
                 this.Player = new Player { Id = 1 };
-                this.Player.Tags.Add(Tag.NO_POKEMON);
+                this.Player.Tags.Add(Tag.NOPOKEMON);
                 SetUpNewPlayerCharacter();
                 return true;
             }
@@ -206,15 +206,6 @@ namespace PokeZork.GameEngine
             return true;
         }
 
-        //private void SetCurrentSection(string values)
-        //{
-        //    var splitValues = values.Split(":");
-        //    this.SelectedChapter = Convert.ToInt32(splitValues[0].IsNumber() ? splitValues[0] : 1);
-        //    this.SelectedScene = Convert.ToInt32(splitValues[1].IsNumber() ? splitValues[0] : 1);
-        //    this.SelectedDialog = Convert.ToInt32(splitValues[2].IsNumber() ? splitValues[0] : 1);
-
-        //}
-
         //Starting Point is where to start the game at. 
         //default to 1 to start the game at beginning.
         private bool LoadCampaignData(string startingPoint = "1:1:1")
@@ -303,13 +294,16 @@ namespace PokeZork.GameEngine
                             {
                                 DialogChoice engineChoice = new DialogChoice
                                 {
-                                    Id = choiceJson.Id,
                                     ChoiceKey = choiceJson.Key,
                                     ChoiceText = choiceJson.Text
                                 };
                                 foreach (var commandEntry in choiceJson.Commands)
                                 {
-                                    engineChoice.Commands.Add(commandEntry.Command.ToCommandEnum(), commandEntry.Value);
+                                    var command = commandEntry.Command.ToCommandEnum();
+                                    if (command.HasValue)
+                                    {
+                                        engineChoice.Commands.Add(command.Value, commandEntry.Value);
+                                    }
                                 }
                                 engineDialog.Choices.Add(engineChoice);
                             }

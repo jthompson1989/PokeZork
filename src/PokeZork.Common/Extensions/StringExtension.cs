@@ -88,7 +88,7 @@ namespace PokeZork.Common.Extensions
             return false;
         }
 
-        public static Command ToCommandEnum(this string str)
+        public static Command? ToCommandEnum(this string str)
         {
             return str switch
             {
@@ -102,17 +102,21 @@ namespace PokeZork.Common.Extensions
                 "GOTO" => Command.GOTO,
                 "POKEMONBATTLE" => Command.POKEMONBATTLE,
                 "GAMEOVER" => Command.GAMEOVER,
+                "" => Command.NONE,
+                _=> null
             };
         }
 
-        public static Tag ToTagEnum(this string str)
+        public static Tag? ToTagEnum(this string str)
         {
             return str switch
             {
-                "NO_POKEMON" => Tag.NO_POKEMON,
-                "PORN_ADDICT" => Tag.PORN_ADDICT,
-                "MOMMY_ISSUE" => Tag.MOMMY_ISSUE,
-                "SLEPT_IN" => Tag.SLEPT_IN,
+                "NOPOKEMON" => Tag.NOPOKEMON,
+                "PORNADDICT" => Tag.PORNADDICT,
+                "MOMMYISSUE" => Tag.MOMMYISSUE,
+                "SLEPTIN" => Tag.SLEPTIN,
+                "TALKEDTOMOM" => Tag.TALKEDTOMOM,
+                _=> null
             };
         }
 

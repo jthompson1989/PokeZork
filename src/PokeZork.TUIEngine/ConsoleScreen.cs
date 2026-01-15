@@ -17,7 +17,7 @@ namespace PokeZork.TUIEngine
         BATTLE,
         GAMEOVER
     }
-    public class Screen : IScreen
+    public class ConsoleScreen : IScreen
     {
         internal int _xSize = 800;
         internal int _ySize = 600;

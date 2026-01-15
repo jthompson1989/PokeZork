@@ -90,7 +90,7 @@
                   "commands": [
                     {
                       "command": "GOTO",
-                      "value": "1:1:1"
+                      "value": "1:2:9"
                     }
                   ]
                 },
@@ -138,7 +138,6 @@
                   "id": 8,
                   "key": "3",
                   "text": "Surf Pornhub",
-                  "minPlayerAge": 18,
                   "commands": [
                     {
                       "command": "SETCHARACTERTAG",
@@ -155,18 +154,6 @@
                   "key": "4",
                   "text": "Leave Computer",
                   "minPlayerAge": 18,
-                  "commands": [
-                    {
-                      "command": "GOTO",
-                      "value": "1:2:45"
-                    }
-                  ]
-                },
-                {
-                  "id": 10,
-                  "key": "3",
-                  "text": "Leave Computer",
-                  "maxPlayerAge": 17,
                   "commands": [
                     {
                       "command": "GOTO",
@@ -190,9 +177,46 @@
             },
             {
               "id": 8,
-              "text": "You Play Minesweeper.",
+              "text": "You pervert, make sure to clean your browser history.",
               "nextDialog": "1:2:5",
               "choices": []
+            },
+            {
+              "id": 9,
+              "text": "Downstairs is quiet, your Mom sits at the table sipping coffee. ",
+              "nextDialog": "1:2:45",
+              "choices": [
+                {
+                  "key": "1",
+                  "text": "Talk to your Mom",
+                  "commands": [
+                    {
+                      "command": "GOTO",
+                      "value": ""
+                    }
+                  ]
+                },
+                {
+                  "key": "2",
+                  "text": "Leave the house",
+                  "commands": [
+                    {
+                      "command": "GOTO",
+                      "value": ""
+                    }
+                  ]
+                },
+                {
+                  "key": "3",
+                  "text": "Get yourself a cup of coffee",
+                  "commands": [
+                    {
+                      "command": "GAMEOVER",
+                      "value": ""
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }

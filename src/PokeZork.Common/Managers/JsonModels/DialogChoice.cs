@@ -4,7 +4,6 @@ namespace PokeZork.Common.Managers.JsonModels
 {
     public class DialogChoice
     {
-        public int Id { get; set; }
         /// <summary>
         /// Choice key as presented to the player (e.g. "1", "A")
         /// </summary>

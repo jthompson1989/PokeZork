@@ -6,6 +6,7 @@ namespace PokeZork.Common.Enum
 {
     public enum Command
     {
+        NONE,
         ROLLDICE,
         GIVEITEM,
         TAKEITEM,
@@ -35,7 +36,8 @@ namespace PokeZork.Common.Enum
                 Command.SETITEMTAG => "SETITEMTAG",
                 Command.GOTO => "GOTO",
                 Command.POKEMONBATTLE => "POKEMONBATTLE",
-                Command.GAMEOVER => "GAMEOVER"
+                Command.GAMEOVER => "GAMEOVER",
+                _=> "",
             };
         }
     }

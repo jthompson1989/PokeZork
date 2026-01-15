@@ -24,7 +24,8 @@ namespace PokeZork.Common.Enum
             return dialogVariable switch
             {
                 DialogVariable.PLAYERNAME => "@PLAYERNAME",
-                DialogVariable.PLAYERAGE => "@PLAYERAGE"
+                DialogVariable.PLAYERAGE => "@PLAYERAGE",
+                _ => string.Empty
             };
         }
 
@@ -32,7 +33,8 @@ namespace PokeZork.Common.Enum
         {
             return dialogVariable switch
             {
-                DialogConditionalVariable.ISADULTCOND => "@ISADULTCOND"
+                DialogConditionalVariable.ISADULTCOND => "@ISADULTCOND",
+                _ => string.Empty
             };
         }
     }

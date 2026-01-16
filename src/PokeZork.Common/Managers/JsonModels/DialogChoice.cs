@@ -11,12 +11,6 @@ namespace PokeZork.Common.Managers.JsonModels
         public string Text { get; set; } = string.Empty;
 
         /// <summary>
-        /// Optional age gating metadata (matches your JSON example).
-        /// </summary>
-        public int? MinPlayerAge { get; set; }
-        public int? MaxPlayerAge { get; set; }
-
-        /// <summary>
         /// List of command entries for this choice. Commands are stored as strings
         /// (e.g. "GOTO", "GAMEOVER", "SETCHARACTERTAG") to avoid coupling to runtime enums.
         /// </summary>

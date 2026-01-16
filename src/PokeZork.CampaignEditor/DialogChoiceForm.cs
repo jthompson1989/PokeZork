@@ -27,6 +27,20 @@ namespace PokeZork.CampaignEditor
             LoadCommandListBox();
         }
 
+        public DialogChoiceForm(ref DialogChoice dialogChoice, ref Dialog dialog)
+        {
+            InitializeComponent();
+            this.Dialog = dialog;
+            this.CommandEntries = new List<CommandEntry>(dialogChoice.Commands);
+            txtDialogChoiceKey.Text = dialogChoice.Key;
+            txtDialogChoiceText.Text = dialogChoice.Text;
+            foreach (var command in Enum.GetValues<Command>())
+            {
+                cbxCommands.Items.Add(command.ToFriendlyString());
+            }
+            LoadCommandListBox();
+        }
+
         private void label2_Click(object sender, EventArgs e)
         {
 

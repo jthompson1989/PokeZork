@@ -2,6 +2,9 @@
 using System;
 using PokeZork.GameEngine;
 using PokeZork.TUIEngine;
+using PokeZork.Common.Enum;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace PokeZork.Console
 {
@@ -23,8 +26,8 @@ namespace PokeZork.Console
 
             }
             var option = mainScreen.PrintTitleMenu();
-            //string campaignJsonPath = @"C:\Users\zombi\source\repos\PokeZork\src\PokeZork.Console\Campaign1.campaign";
-            string campaignJsonPath = @"C:\Users\zombi\source\repos\jthompson1989\PokeZork\src\PokeZork.Console\Campaign1.campaign";
+            string campaignJsonPath = @"C:\Users\zombi\source\repos\PokeZork\src\PokeZork.Console\Campaign1.campaign";
+            //string campaignJsonPath = @"C:\Users\zombi\source\repos\jthompson1989\PokeZork\src\PokeZork.Console\Campaign1.campaign";
             Game game = new Game(mainScreen, campaignJsonPath);
             switch (option)
             {
@@ -33,7 +36,25 @@ namespace PokeZork.Console
                     var playerCreated = game.LoadNewPlayerCharacter();
                     if (playerCreated)
                     {
-                        game.StartGame();
+                        var gameEndStatus = game.StartGame();
+                        if (gameEndStatus == GameEndStatus.User)
+                        {
+                            mainScreen.DelayWrite("\nPokeZork created by ZombieChan", 15);
+                            mainScreen.DelayWrite("\nExiting...", 15);
+                        }
+                        else if (gameEndStatus == GameEndStatus.Error)
+                        {
+                            mainScreen.DelayWrite("\nError Occured", 15);
+                        }
+                        else if (gameEndStatus == GameEndStatus.GameOver)
+                        {
+                            mainScreen.PrintGameOver();
+                            mainScreen.DelayWrite("\nExiting...", 15);
+                        }
+                        else
+                        {
+                            mainScreen.DelayWrite("\nExiting...", 15);
+                        }
                     }
                     else
                     {

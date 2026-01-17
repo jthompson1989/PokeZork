@@ -182,10 +182,13 @@ namespace PokeZork.TUIEngine
                 But input can take a few commands, as such:
                   POKEDEX -> Opens Pokedex 
                   PARTY -> Opens Party Menu
+                  STATS -> Opens Player Stats Menu
                   ITEMS -> Opens Item Menu
                   SAVE -> Saves Game 
-                  HELP -> Brings up this screen.
+                  HELP -> Brings up this screen
+                  QUIT -> Quits Game
                 """);
+            Console.ReadKey();
         }
 
         public void PrintGameOver()

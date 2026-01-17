@@ -129,6 +129,32 @@ namespace PokeZork.Common.Extensions
                 _ => null,
             };
         }
+        public static bool IsSystemCommand(this string str)
+        {
+            foreach (SystemCommand command in System.Enum.GetValues(typeof(SystemCommand)))
+            {
+                if (str == command.ToString())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static SystemCommand? ToSystemCommand(this string str)
+        {
+            return str switch
+            {
+                "POKEDEX" => SystemCommand.POKEDEX,
+                "PARTY" => SystemCommand.PARTY,
+                "STATS" => SystemCommand.STATS,
+                "ITEMS" => SystemCommand.ITEMS,
+                "SAVE" => SystemCommand.SAVE,
+                "HELP" => SystemCommand.HELP,
+                "QUIT" => SystemCommand.QUIT,
+                _ => null
+            };
+        }
     }
 
 }

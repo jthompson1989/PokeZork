@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PokeZork.Common.Enum;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,6 +11,6 @@ namespace PokeZork.GameEngine.Interface
 
         bool LoadNewPlayerCharacter();
 
-        bool StartGame();
+        GameEndStatus StartGame();
     }
 }

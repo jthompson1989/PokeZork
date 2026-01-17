@@ -89,13 +89,13 @@ namespace PokeZork.GameEngine
             }
         }
 
-        public bool StartGame()
+        public GameEndStatus StartGame()
         {
             try
             {
                 if (!LoadCampaignData() || !LoadCurrentSection())
                 {
-                    return false;
+                    return GameEndStatus.Error;
                 }
 
                 this.IsGameRunning = true;
@@ -105,12 +105,51 @@ namespace PokeZork.GameEngine
                     var loadedDialog = this.Campaign?.LoadSelectedDialog(SelectedChapter, SelectedScene, SelectedDialog);
                     if (loadedDialog == null)
                     {
-                        return false;
+                        return GameEndStatus.Error;
                     }
 
                     loadedDialog.Text = ProcessDialogLine(loadedDialog.Text);
                     var dialogModel = loadedDialog.ConvertToDialogModel();
                     var choiceKey = this._screen.PrintDialog(dialogModel) ?? string.Empty;
+
+                    if (choiceKey.IsSystemCommand())
+                    {
+                        var systemCommand = choiceKey.ToSystemCommand();
+                        if (systemCommand.HasValue)
+                        {
+                            switch (systemCommand.Value)
+                            {
+                                case SystemCommand.QUIT:
+                                    this.IsGameRunning = false;
+                                    return GameEndStatus.User;
+                                case SystemCommand.SAVE:
+                                    // Implement save logic here
+                                    this._screen.Write("Game saved successfully.");
+                                    continue;
+                                case SystemCommand.POKEDEX:
+                                    // Implement Pokédex display logic here
+                                    this._screen.Write("Displaying Pokédex...");
+                                    continue;
+                                case SystemCommand.PARTY:
+                                    // Implement Party display logic here
+                                    this._screen.Write("Displaying Party...");
+                                    continue;
+                                case SystemCommand.ITEMS:
+                                    // Implement Items display logic here
+                                    this._screen.Write("Displaying Items...");
+                                    continue;
+                                case SystemCommand.STATS:
+                                    // Implement Stats display logic here
+                                    this._screen.DelayWrite(this.Player?.GetStatsSummaryString() ?? "");
+                                    continue;
+                                case SystemCommand.HELP:
+                                    this._screen.PrintGameInformation();
+                                    continue;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
 
                     if (loadedDialog.Choices.Any())
                     {
@@ -138,8 +177,7 @@ namespace PokeZork.GameEngine
                                     break;
 
                                 case Command.GAMEOVER:
-                                    this.IsGameRunning = false;
-                                    break;
+                                    return GameEndStatus.GameOver;
 
                                 default:
                                     // Unknown command
@@ -166,11 +204,11 @@ namespace PokeZork.GameEngine
                     }
                 }
 
-                return true;
+                return GameEndStatus.User;
             }
             catch (Exception)
             {
-                return false;
+                return GameEndStatus.Error;
             }
         }
 
@@ -253,6 +291,14 @@ namespace PokeZork.GameEngine
 
                     processedLine = Regex.Replace(processedLine, pattern, match =>
                         isAdult ? match.Groups[1].Value : string.Empty
+                    );
+                }
+                else if (conditionalVariable == DialogConditionalVariable.ISNOTADULTCOND)
+                {
+                    string pattern = $@"{Regex.Escape(conditionalVariable.ToFriendlyString())}\|([^|]+)\|";
+                    bool isNotAdult = (this.Player?.Age ?? 0) < 18;
+                    processedLine = Regex.Replace(processedLine, pattern, match =>
+                        isNotAdult ? match.Groups[1].Value : string.Empty
                     );
                 }
             }

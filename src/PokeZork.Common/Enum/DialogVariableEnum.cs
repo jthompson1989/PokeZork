@@ -14,7 +14,8 @@ namespace PokeZork.Common.Enum
     //Show Paramter if true (Parameter is in between ||)
     public enum DialogConditionalVariable
     {
-        ISADULTCOND //Conditional variable to check if player is adult (18 or older).
+        ISADULTCOND, //Conditional variable to check if player is adult (18 or older).
+        ISNOTADULTCOND
     }
 
     public static class DialogVariableExtensions
@@ -34,6 +35,7 @@ namespace PokeZork.Common.Enum
             return dialogVariable switch
             {
                 DialogConditionalVariable.ISADULTCOND => "@ISADULTCOND",
+                DialogConditionalVariable.ISNOTADULTCOND => "@ISNOTADULTCOND",
                 _ => string.Empty
             };
         }

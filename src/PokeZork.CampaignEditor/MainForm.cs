@@ -19,7 +19,7 @@ namespace PokeZork.CampaignEditor
         private void MainForm_Load(object sender, EventArgs e)
         {
             //Make sure all group boxes are hidden on load
-            HideGroupBoxes(this.introGroupBox);
+            ShowGroupBox(this.introGroupBox);
 
         }
 
@@ -50,7 +50,7 @@ namespace PokeZork.CampaignEditor
             }
 
             // If editing an existing chapter, update it. Otherwise create a new one.
-            if (this.SelectedChapter == null)
+            if (this.SelectedChapter == null || this.SelectedChapter.Id == 0)
             {
                 if (this.LoadedCampaign.Chapters.Any(c => c.Id == parsedId))
                 {
@@ -85,18 +85,18 @@ namespace PokeZork.CampaignEditor
             campaignTreeView.Nodes.Clear();
             LoadCampignTree();
 
-            HideGroupBoxes(this.introGroupBox);
+            ShowGroupBox(this.introGroupBox);
         }
 
         private void btnCancelChapter_Click(object sender, EventArgs e)
         {
-            HideGroupBoxes(this.introGroupBox);
+            ShowGroupBox(this.introGroupBox);
         }
 
         private void btnAddScene_Click(object sender, EventArgs e)
         {
             this.SelectedScene = null;
-            HideGroupBoxes(this.sceneGroupBox);
+            ShowGroupBox(this.sceneGroupBox);
         }
 
         private void btnSaveScene_Click(object sender, EventArgs e)
@@ -143,8 +143,8 @@ namespace PokeZork.CampaignEditor
                     return;
                 }
             }
-            // If editing an existing scene, update it. Otherwise create a new one.
-            if (this.SelectedScene == null)
+
+            if (this.SelectedScene == null || this.SelectedScene.Id == 0)
             {
                 if (this.SelectedChapter.Scenes.Any(s => s.Id == parsedId))
                 {
@@ -178,17 +178,17 @@ namespace PokeZork.CampaignEditor
             campaignTreeView.Nodes.Clear();
             LoadCampignTree();
 
-            HideGroupBoxes(this.introGroupBox);
+            ShowGroupBox(this.introGroupBox);
         }
 
         private void btnCancelScene_Click(object sender, EventArgs e)
         {
-            HideGroupBoxes(this.introGroupBox);
+            ShowGroupBox(this.introGroupBox);
         }
 
         private void btnAddDialog_Click(object sender, EventArgs e)
         {
-            HideGroupBoxes(this.dialogGroupBox);
+            ShowGroupBox(this.dialogGroupBox);
             if (this.SelectedDialog == null)
             {
                 this.SelectedDialog = new Dialog();
@@ -197,20 +197,99 @@ namespace PokeZork.CampaignEditor
             {
                 txtDialogId.Text = this.SelectedDialog.Id.ToString();
                 txtDialogText.Text = this.SelectedDialog.Text;
-
-
             }
         }
 
         private void btnSaveDialog_Click(object sender, EventArgs e)
         {
+            if (this.LoadedCampaign == null)
+            {
+                MessageBox.Show("No campaign is loaded.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            if (!int.TryParse(txtDialogId.Text, out int parsedId))
+            {
+                MessageBox.Show("Dialog ID must be a valid integer.", "Invalid ID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string text = txtDialogText.Text?.Trim() ?? string.Empty;
+            if (string.IsNullOrEmpty(text))
+            {
+                MessageBox.Show("Dialog text cannot be empty.", "Invalid Text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Ensure we have a selected scene to attach this dialog to
+            if (this.SelectedScene == null)
+            {
+                if (cbxScenes.SelectedItem == null)
+                {
+                    MessageBox.Show("No scene selected. Please select a scene first.", "No Scene Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var selectedText = cbxScenes.SelectedItem.ToString() ?? string.Empty;
+                var parts = selectedText.Split(new[] { '-' }, 2);
+                if (parts.Length == 0 || !int.TryParse(parts[0], out int sceneId))
+                {
+                    MessageBox.Show("Unable to determine selected scene. Please reselect a scene.", "Invalid Scene", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                this.SelectedScene = GetSceneFromCampaign(sceneId);
+                if (this.SelectedScene == null)
+                {
+                    MessageBox.Show("Selected scene not found in the loaded campaign.", "Scene Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            // If creating a new dialog
+            if (this.SelectedDialog == null || this.SelectedDialog.Id == 0)
+            {
+                if (this.SelectedScene.Dialogs.Any(d => d.Id == parsedId))
+                {
+                    MessageBox.Show($"A dialog with ID {parsedId} already exists in scene {this.SelectedScene.Id}.", "Duplicate ID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                this.SelectedDialog = new Dialog
+                {
+                    Id = parsedId,
+                    Text = text,
+                    NextDialog = txtNextDialogCode.Text?.Trim() ?? string.Empty,
+                    Choices = new List<DialogChoice>()
+                };
+
+                this.SelectedScene.Dialogs.Add(this.SelectedDialog);
+            }
+            else
+            {
+                var existingWithId = this.SelectedScene.Dialogs.FirstOrDefault(d => d.Id == parsedId && !ReferenceEquals(d, this.SelectedDialog));
+                if (existingWithId != null)
+                {
+                    MessageBox.Show($"Another dialog with ID {parsedId} already exists in scene {this.SelectedScene.Id}.", "Duplicate ID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                this.SelectedDialog.Id = parsedId;
+                this.SelectedDialog.Text = text;
+                this.SelectedDialog.NextDialog = txtNextDialogCode.Text?.Trim() ?? string.Empty;
+            }
+
+            LoadComboBoxSceneFromCampaign();
+            campaignTreeView.Nodes.Clear();
+            LoadCampignTree();
+
+            ShowGroupBox(this.introGroupBox);
         }
 
         private void btnCancelDialog_Click(object sender, EventArgs e)
         {
             this.SelectedDialog = null;
-            HideGroupBoxes(this.introGroupBox);
+            ShowGroupBox(this.introGroupBox);
         }
 
         private void btnOpenDialogChoiceForm_Click(object sender, EventArgs e)
@@ -230,17 +309,17 @@ namespace PokeZork.CampaignEditor
 
         private void btnNewChapter_Click(object sender, EventArgs e)
         {
-            HideGroupBoxes(this.chapterGroupBox);
+            ShowGroupBox(this.chapterGroupBox);
         }
 
         private void btnCreateScene_Click(object sender, EventArgs e)
         {
-            HideGroupBoxes(this.sceneGroupBox);
+            ShowGroupBox(this.sceneGroupBox);
         }
 
         private void btnCreateDialog_Click(object sender, EventArgs e)
         {
-            HideGroupBoxes(this.dialogGroupBox);
+            ShowGroupBox(this.dialogGroupBox);
         }
 
         private void newCampaignToolStripMenuItem_Click(object sender, EventArgs e)
@@ -277,7 +356,13 @@ namespace PokeZork.CampaignEditor
                 txtChapterName.Text = this.SelectedChapter.Title;
                 txtChapterId.Text = this.SelectedChapter.Id.ToString();
             }
-            HideGroupBoxes(this.chapterGroupBox);
+            ShowGroupBox(this.chapterGroupBox);
+        }
+
+        private void ClearChapterUI()
+        {
+            txtChapterId.Text = string.Empty;
+            txtChapterName.Text = string.Empty;
         }
 
         private void LoadScene(int id, int? chapterId)
@@ -292,8 +377,14 @@ namespace PokeZork.CampaignEditor
                     txtSceneName.Text = this.SelectedScene.Title;
                     txtSceneId.Text = this.SelectedScene.Id.ToString();
                 }
-                HideGroupBoxes(this.sceneGroupBox);
+                ShowGroupBox(this.sceneGroupBox);
             }
+        }
+
+        private void ClearSceneUI()
+        {
+            txtSceneId.Text = string.Empty;
+            txtSceneName.Text = string.Empty;
         }
 
         private void LoadDialog(int id, int? sceneId)
@@ -314,30 +405,38 @@ namespace PokeZork.CampaignEditor
                         lstBxDialogChoices.Items.Add($"{choice.Key}-{choice.Text}");
                     }
                 }
-                HideGroupBoxes(this.dialogGroupBox);
+                ShowGroupBox(this.dialogGroupBox);
             }
         }
 
-
-        private void HideGroupBoxes(GroupBox? except = null)
+        private void ClearDialogUI()
         {
-            this.chapterGroupBox.Visible = ReferenceEquals(except, this.chapterGroupBox);
-            this.sceneGroupBox.Visible = ReferenceEquals(except, this.sceneGroupBox);
-            this.dialogGroupBox.Visible = ReferenceEquals(except, this.dialogGroupBox);
-            this.introGroupBox.Visible = ReferenceEquals(except, this.introGroupBox);
+            txtDialogId.Text = string.Empty;
+            txtDialogText.Text = string.Empty;
+            txtNextDialogCode.Text = string.Empty;
+            lstBxDialogChoices.Items.Clear();
+        }
 
-            if (except != null)
+
+        private void ShowGroupBox(GroupBox? groupBox = null)
+        {
+            this.chapterGroupBox.Visible = ReferenceEquals(groupBox, this.chapterGroupBox);
+            this.sceneGroupBox.Visible = ReferenceEquals(groupBox, this.sceneGroupBox);
+            this.dialogGroupBox.Visible = ReferenceEquals(groupBox, this.dialogGroupBox);
+            this.introGroupBox.Visible = ReferenceEquals(groupBox, this.introGroupBox);
+
+            if (groupBox != null)
             {
-                except.Location = new Point(GROUPBOX_X_POSITION, GROUPBOX_Y_POSITION);
+                groupBox.Location = new Point(GROUPBOX_X_POSITION, GROUPBOX_Y_POSITION);
             }
 
-            if (except != null
-                && !ReferenceEquals(except, this.chapterGroupBox)
-                && !ReferenceEquals(except, this.sceneGroupBox)
-                && !ReferenceEquals(except, this.dialogGroupBox)
-                && !ReferenceEquals(except, this.introGroupBox))
+            if (groupBox != null
+                && !ReferenceEquals(groupBox, this.chapterGroupBox)
+                && !ReferenceEquals(groupBox, this.sceneGroupBox)
+                && !ReferenceEquals(groupBox, this.dialogGroupBox)
+                && !ReferenceEquals(groupBox, this.introGroupBox))
             {
-                except.Visible = true;
+                groupBox.Visible = true;
             }
         }
 
@@ -366,30 +465,6 @@ namespace PokeZork.CampaignEditor
                     campaignTreeView.Nodes.Add(chapterNode);
                 }
                 campaignTreeView.Enabled = true;
-                campaignTreeView.NodeMouseClick += CampaignTree_NodeMouseClick;
-            }
-        }
-        private void CampaignTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            var selectedNode = e.Node;
-            if (selectedNode != null)
-            {
-                var parentNode = selectedNode.Parent;
-                if (selectedNode.Tag is Chapter chapter)
-                {
-                    var campaignNode = parentNode?.Tag as Campaign ?? null;
-                    LoadChapter(chapter.Id, campaignNode?.Id);
-                }
-                else if (selectedNode.Tag is Scene scene)
-                {
-                    var chapterNode = parentNode?.Tag as Chapter ?? null;
-                    LoadScene(scene.Id, chapterNode?.Id);
-                }
-                else if (selectedNode.Tag is Dialog dialog)
-                {
-                    var sceneNode = parentNode?.Tag as Scene ?? null;
-                    LoadDialog(dialog.Id, sceneNode?.Id);
-                }
             }
         }
 
@@ -488,5 +563,76 @@ namespace PokeZork.CampaignEditor
 
             }
         }
+
+        private void campaignTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e == null)
+                return;
+
+
+            if (e.Node != null)
+            {
+                campaignTreeView.SelectedNode = e.Node;
+                var selectedNode = e.Node;
+                if (selectedNode != null)
+                {
+                    var parentNode = selectedNode.Parent;
+                    if (selectedNode.Tag is Chapter chapter)
+                    {
+                        var campaignNode = parentNode?.Tag as Campaign ?? null;
+                        LoadChapter(chapter.Id, campaignNode?.Id);
+                    }
+                    else if (selectedNode.Tag is Scene scene)
+                    {
+                        var chapterNode = parentNode?.Tag as Chapter ?? null;
+                        LoadScene(scene.Id, chapterNode?.Id);
+                    }
+                    else if (selectedNode.Tag is Dialog dialog)
+                    {
+                        var sceneNode = parentNode?.Tag as Scene ?? null;
+                        LoadDialog(dialog.Id, sceneNode?.Id);
+                    }
+
+                    if (e.Button == MouseButtons.Right && (selectedNode.Tag is Campaign || selectedNode.Tag is Chapter || selectedNode.Tag is Scene))
+                    {
+                        if (campaignTreeView.ContextMenuStrip != null)
+                        {
+                            campaignTreeView.ContextMenuStrip.Show(campaignTreeView, e.Location);
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void treeContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void createNewChildToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (campaignTreeView.SelectedNode != null && campaignTreeView.SelectedNode.Tag is Campaign)
+            {
+                ClearChapterUI();
+                this.SelectedChapter = new Chapter();
+                ShowGroupBox(this.chapterGroupBox);
+            }
+            else if (campaignTreeView.SelectedNode != null && campaignTreeView.SelectedNode.Tag is Chapter)
+            {
+                ClearSceneUI();
+                this.SelectedScene = new Scene();
+                this.cbxChapters.SelectedItem = $"{((Chapter)campaignTreeView.SelectedNode.Tag).Id}-{((Chapter)campaignTreeView.SelectedNode.Tag).Title}";
+                ShowGroupBox(this.sceneGroupBox);
+            }
+            else if (campaignTreeView.SelectedNode != null && campaignTreeView.SelectedNode.Tag is Scene)
+            {
+                ClearDialogUI();
+                this.SelectedDialog = new Dialog();
+                this.cbxScenes.SelectedItem = $"{((Scene)campaignTreeView.SelectedNode.Tag).Id}-{((Scene)campaignTreeView.SelectedNode.Tag).Title}";
+                ShowGroupBox(this.dialogGroupBox);
+            }
+        }
     }
 }
+

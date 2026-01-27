@@ -14,6 +14,10 @@ namespace PokeZork.Common.Managers.JsonModels
         /// Navigation token (example: "1:2:3"). May be null when not set.
         /// </summary>
         public string? NextDialog { get; set; }
+
+        //Commands to run when this dialog is reached. 
+        public List<CommandEntry> Commands { get; set; } = new List<CommandEntry>();
+
         public List<DialogChoice> Choices { get; set; } = new List<DialogChoice>();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using PokeZork.Common;
 using PokeZork.Common.Enum;
+using PokeZork.Common.Managers.JsonModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,9 @@ namespace PokeZork.GameEngine.CampaignModels
         internal string NextDialog { get; set; } = string.Empty; //Example: "1:2:3"  
 
         internal List<DialogChoice> Choices { get; set; } = new List<DialogChoice>();
+
+        //These are commands that run on dialog load, not choice selection
+        internal List<CommandEntry> Commands { get; set; } = new List<CommandEntry>();
 
         internal DialogModel ConvertToDialogModel()
         {

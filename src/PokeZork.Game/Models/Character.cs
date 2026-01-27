@@ -8,8 +8,8 @@ namespace PokeZork.GameEngine.Models
     public class Character
     {
         private Gender _gender;
-        private string[] genderMaleKeyword = new string[] { "boy", "man", "male", "dude", "he", "he/him" };
-        private string[] genderFemaleKeyword = new string[] { "girl", "woman", "female", "dudette", "she", "she/her" };
+        private string[] genderMaleKeyword = new string[] { "boy", "man", "male", "dude", "he", "he/him", "him" };
+        private string[] genderFemaleKeyword = new string[] { "girl", "woman", "female", "dudette", "she", "she/her", "her" };
         private string[] genderNeutralKeyword = new string[] { "non-binary", "nb", "other", "neither", "both", "nonbinary", "non binary", "they" };
         public required int Id { get; set; }
         public string Name { get; set; } = "Unnamed";
@@ -39,7 +39,7 @@ namespace PokeZork.GameEngine.Models
                 }
                 else
                 {
-                    return "Evil";
+                    return "Eldritch";
                 }
             }
             set

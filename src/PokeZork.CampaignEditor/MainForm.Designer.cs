@@ -78,12 +78,21 @@
             btnCreateDialog = new Button();
             introGroupBox = new GroupBox();
             btnWriteCampaignChanges = new Button();
+            groupBox1 = new GroupBox();
+            btnDeleteCommand = new Button();
+            btnAddCommand = new Button();
+            label10 = new Label();
+            txtParameter = new TextBox();
+            label11 = new Label();
+            cbxCommands = new ComboBox();
+            commandListBox = new ListBox();
             menuStrip1.SuspendLayout();
             treeContextMenu.SuspendLayout();
             chapterGroupBox.SuspendLayout();
             sceneGroupBox.SuspendLayout();
             dialogGroupBox.SuspendLayout();
             introGroupBox.SuspendLayout();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // statusStrip1
@@ -171,13 +180,13 @@
             // 
             treeContextMenu.Items.AddRange(new ToolStripItem[] { createNewChildToolStripMenuItem });
             treeContextMenu.Name = "treeContextMenu";
-            treeContextMenu.Size = new Size(181, 48);
+            treeContextMenu.Size = new Size(167, 26);
             treeContextMenu.Opening += treeContextMenu_Opening;
             // 
             // createNewChildToolStripMenuItem
             // 
             createNewChildToolStripMenuItem.Name = "createNewChildToolStripMenuItem";
-            createNewChildToolStripMenuItem.Size = new Size(180, 22);
+            createNewChildToolStripMenuItem.Size = new Size(166, 22);
             createNewChildToolStripMenuItem.Text = "Create New Child";
             createNewChildToolStripMenuItem.Click += createNewChildToolStripMenuItem_Click;
             // 
@@ -380,6 +389,7 @@
             // 
             // dialogGroupBox
             // 
+            dialogGroupBox.Controls.Add(groupBox1);
             dialogGroupBox.Controls.Add(btnDeleteSelectedDialogChoice);
             dialogGroupBox.Controls.Add(btnOpenDialogChoiceForm);
             dialogGroupBox.Controls.Add(lstBxDialogChoices);
@@ -397,7 +407,7 @@
             dialogGroupBox.Margin = new Padding(2);
             dialogGroupBox.Name = "dialogGroupBox";
             dialogGroupBox.Padding = new Padding(2);
-            dialogGroupBox.Size = new Size(365, 470);
+            dialogGroupBox.Size = new Size(652, 470);
             dialogGroupBox.TabIndex = 7;
             dialogGroupBox.TabStop = false;
             dialogGroupBox.Text = "Dialog";
@@ -590,6 +600,83 @@
             btnWriteCampaignChanges.UseVisualStyleBackColor = true;
             btnWriteCampaignChanges.Click += btnWriteCampaignChanges_Click;
             // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(btnDeleteCommand);
+            groupBox1.Controls.Add(btnAddCommand);
+            groupBox1.Controls.Add(label10);
+            groupBox1.Controls.Add(txtParameter);
+            groupBox1.Controls.Add(label11);
+            groupBox1.Controls.Add(cbxCommands);
+            groupBox1.Controls.Add(commandListBox);
+            groupBox1.Location = new Point(357, 22);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(278, 440);
+            groupBox1.TabIndex = 17;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Commands";
+            // 
+            // btnDeleteCommand
+            // 
+            btnDeleteCommand.Location = new Point(188, 135);
+            btnDeleteCommand.Name = "btnDeleteCommand";
+            btnDeleteCommand.Size = new Size(75, 23);
+            btnDeleteCommand.TabIndex = 6;
+            btnDeleteCommand.Text = "Delete";
+            btnDeleteCommand.UseVisualStyleBackColor = true;
+            btnDeleteCommand.Click += btnDeleteCommand_Click;
+            // 
+            // btnAddCommand
+            // 
+            btnAddCommand.Location = new Point(107, 135);
+            btnAddCommand.Name = "btnAddCommand";
+            btnAddCommand.Size = new Size(75, 23);
+            btnAddCommand.TabIndex = 5;
+            btnAddCommand.Text = "Add";
+            btnAddCommand.UseVisualStyleBackColor = true;
+            btnAddCommand.Click += btnAddCommand_Click;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(21, 71);
+            label10.Name = "label10";
+            label10.Size = new Size(61, 15);
+            label10.TabIndex = 4;
+            label10.Text = "Parameter";
+            // 
+            // txtParameter
+            // 
+            txtParameter.Location = new Point(21, 88);
+            txtParameter.Name = "txtParameter";
+            txtParameter.Size = new Size(178, 23);
+            txtParameter.TabIndex = 3;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(21, 25);
+            label11.Name = "label11";
+            label11.Size = new Size(69, 15);
+            label11.TabIndex = 2;
+            label11.Text = "Commands";
+            // 
+            // cbxCommands
+            // 
+            cbxCommands.FormattingEnabled = true;
+            cbxCommands.Location = new Point(21, 43);
+            cbxCommands.Name = "cbxCommands";
+            cbxCommands.Size = new Size(178, 23);
+            cbxCommands.TabIndex = 1;
+            // 
+            // commandListBox
+            // 
+            commandListBox.FormattingEnabled = true;
+            commandListBox.Location = new Point(6, 175);
+            commandListBox.Name = "commandListBox";
+            commandListBox.Size = new Size(257, 259);
+            commandListBox.TabIndex = 0;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -617,6 +704,8 @@
             dialogGroupBox.ResumeLayout(false);
             dialogGroupBox.PerformLayout();
             introGroupBox.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -672,5 +761,13 @@
         private Button btnWriteCampaignChanges;
         private ContextMenuStrip treeContextMenu;
         private ToolStripMenuItem createNewChildToolStripMenuItem;
+        private GroupBox groupBox1;
+        private Button btnDeleteCommand;
+        private Button btnAddCommand;
+        private Label label10;
+        private TextBox txtParameter;
+        private Label label11;
+        private ComboBox cbxCommands;
+        private ListBox commandListBox;
     }
 }

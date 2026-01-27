@@ -108,6 +108,11 @@ namespace PokeZork.GameEngine
                         return GameEndStatus.Error;
                     }
 
+                    if (loadedDialog.Commands.Any())
+                    {
+                        //TODO: Process any commands on the dialog itself before displaying it.
+                    }
+
                     loadedDialog.Text = ProcessDialogLine(loadedDialog.Text);
                     var dialogModel = loadedDialog.ConvertToDialogModel();
                     var choiceKey = this._screen.PrintDialog(dialogModel) ?? string.Empty;
@@ -189,18 +194,26 @@ namespace PokeZork.GameEngine
                         if (!chosenDialogChoice.Commands.Any(c => c.Key == Command.GOTO))
                         {
                             if (!string.IsNullOrWhiteSpace(loadedDialog.NextDialog))
+                            {
                                 SetCurrentSection(loadedDialog.NextDialog);
+                            }
                             else
+                            {
                                 this.IsGameRunning = false;
+                            }
                         }
-                    }
-                    else
-                    {
-                        // No choices: go to next dialog if present
-                        if (!string.IsNullOrWhiteSpace(loadedDialog.NextDialog))
-                            SetCurrentSection(loadedDialog.NextDialog);
                         else
-                            this.IsGameRunning = false;
+                        {
+                            // No choices: go to next dialog if present
+                            if (!string.IsNullOrWhiteSpace(loadedDialog.NextDialog))
+                            {
+                                SetCurrentSection(loadedDialog.NextDialog);
+                            }
+                            else
+                            {
+                                this.IsGameRunning = false;
+                            }
+                        }
                     }
                 }
 
@@ -252,7 +265,7 @@ namespace PokeZork.GameEngine
             {
                 JsonManager jsonManager = new JsonManager(this._campaignJsonPath);
                 var campaignJsonModel = jsonManager.LoadCampaignFromJson();
-                this.Campaign = ConvertCampaignJsonModelToEngineModel(campaignJsonModel);
+                this.Campaign = Converter.ConvertCampaignJsonModelToEngineModel(campaignJsonModel);
 
                 return true;
             }
@@ -303,69 +316,6 @@ namespace PokeZork.GameEngine
                 }
             }
             return processedLine;
-        }
-
-        private Campaign ConvertCampaignJsonModelToEngineModel(Common.Managers.JsonModels.Campaign campaign)
-        {
-            try
-            {
-                Campaign engineCampaign = new Campaign
-                {
-                    Id = campaign.Id,
-                    Name = campaign.Name
-                };
-                foreach (var chapterJson in campaign.Chapters)
-                {
-                    Chapter engineChapter = new Chapter
-                    {
-                        Id = chapterJson.Id,
-                        Title = chapterJson.Title
-                    };
-                    foreach (var sceneJson in chapterJson.Scenes)
-                    {
-                        Scene engineScene = new Scene
-                        {
-                            Id = sceneJson.Id,
-                            Title = sceneJson.Title
-                        };
-                        foreach (var dialogJson in sceneJson.Dialogs)
-                        {
-                            Dialog engineDialog = new Dialog
-                            {
-                                Id = dialogJson.Id,
-                                Text = dialogJson.Text,
-                                NextDialog = dialogJson.NextDialog ?? string.Empty
-                            };
-                            foreach (var choiceJson in dialogJson.Choices)
-                            {
-                                DialogChoice engineChoice = new DialogChoice
-                                {
-                                    ChoiceKey = choiceJson.Key,
-                                    ChoiceText = choiceJson.Text
-                                };
-                                foreach (var commandEntry in choiceJson.Commands)
-                                {
-                                    var command = commandEntry.Command.ToCommandEnum();
-                                    if (command.HasValue)
-                                    {
-                                        engineChoice.Commands.Add(command.Value, commandEntry.Value);
-                                    }
-                                }
-                                engineDialog.Choices.Add(engineChoice);
-                            }
-                            engineScene.Dialogs.Add(engineDialog);
-                        }
-                        engineChapter.Scenes.Add(engineScene);
-                    }
-                    engineCampaign.Chapters.Add(engineChapter);
-                }
-                return engineCampaign;
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
         }
     }
 }

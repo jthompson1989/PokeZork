@@ -14,6 +14,7 @@
               "id": 1,
               "text": "Hello there! Welcome to the world of POKEMON! My name is Professor Nobody.\nThis world is inhabited by creatures called POKEMON! For some people, POKEMON are pets. Others use them for fights.\r\nMyself...\r\nWell, I can\u0027t legally say.\n\n@PLAYERNAME! Your very own POKEMON legend is about to unfold! A world of dreams and adventures with POKEMON awaits!\nLet\u0027s go!",
               "nextDialog": "1:2:2",
+              "commands": [],
               "choices": []
             }
           ]
@@ -26,6 +27,7 @@
               "id": 2,
               "text": "You wake up in your bedroom, today is the day to meetup with Prof Nobody to pick your first POKEMON.\nWhat do you do?",
               "nextDialog": null,
+              "commands": [],
               "choices": [
                 {
                   "key": "1",
@@ -57,18 +59,21 @@
               "id": 3,
               "text": "You jump out of the bed ready for your first day as a POKEMON TRAINER. @ISADULTCOND|Now is better than later.|",
               "nextDialog": "1:2:45",
+              "commands": [],
               "choices": []
             },
             {
               "id": 4,
               "text": "You sleep in another 2 hours. You get out of bed slowly, you\u0027re late for your first day as a POKEMON TRAINER.",
               "nextDialog": "1:2:45",
+              "commands": [],
               "choices": []
             },
             {
               "id": 45,
               "text": "Your room consist of the bed you were in, a PC, and a door leading down to the stairs. \nWhat do you do?",
               "nextDialog": null,
+              "commands": [],
               "choices": [
                 {
                   "key": "1",
@@ -106,6 +111,7 @@
               "id": 5,
               "text": "You boot up your PC. \nWhat do you do?",
               "nextDialog": null,
+              "commands": [],
               "choices": [
                 {
                   "key": "1",
@@ -157,24 +163,28 @@
               "id": 6,
               "text": "Nobody emails you. You have no friends.",
               "nextDialog": "1:2:5",
+              "commands": [],
               "choices": []
             },
             {
               "id": 7,
               "text": "You Play Minesweeper.",
               "nextDialog": "1:2:5",
+              "commands": [],
               "choices": []
             },
             {
               "id": 8,
               "text": "You pervert, make sure to clean your browser history.",
               "nextDialog": "1:2:5",
+              "commands": [],
               "choices": []
             },
             {
               "id": 9,
               "text": "Downstairs is quiet, your Mom sits at the table sipping coffee.",
               "nextDialog": "1:2:45",
+              "commands": [],
               "choices": [
                 {
                   "key": "1",
@@ -212,6 +222,7 @@
               "id": 10,
               "text": "@ISADULTCOND|You grab yourself a cup of coffee. It taste great.|@ISNOTADULTCOND|You try to get yourself a cup of coffee, MOM stops you and says \u0022You\u0027re too young for coffee.\u0022|",
               "nextDialog": "",
+              "commands": [],
               "choices": []
             }
           ]

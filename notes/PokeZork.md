@@ -200,7 +200,9 @@ After Player makes choice:
 
 "Good choice, wanna do a battle to test it out?" says PROF NOBODY. 
 1.) Sure -> Enter battle scene
-2.) No, 
+2.) No, -> Go to Next dialog
+
+
 
 
 

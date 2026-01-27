@@ -1,3 +1,4 @@
+using PokeZork.Common.Enum;
 using PokeZork.Common.Managers;
 using PokeZork.Common.Managers.JsonModels;
 namespace PokeZork.CampaignEditor
@@ -20,7 +21,10 @@ namespace PokeZork.CampaignEditor
         {
             //Make sure all group boxes are hidden on load
             ShowGroupBox(this.introGroupBox);
-
+            foreach (var command in Enum.GetValues<Command>())
+            {
+                cbxCommands.Items.Add(command.ToFriendlyString());
+            }
         }
 
         private void dialogGroupBox_Enter(object sender, EventArgs e)
@@ -389,6 +393,7 @@ namespace PokeZork.CampaignEditor
 
         private void LoadDialog(int id, int? sceneId)
         {
+
             this.SelectedScene = GetSceneFromCampaign(sceneId ?? -1);
             if (this.SelectedScene != null)
             {
@@ -403,6 +408,10 @@ namespace PokeZork.CampaignEditor
                     foreach (var choice in this.SelectedDialog.Choices)
                     {
                         lstBxDialogChoices.Items.Add($"{choice.Key}-{choice.Text}");
+                    }
+                    foreach (var command in this.SelectedDialog.Commands)
+                    {
+                        cbxCommands.Items.Add($"{command.Command}-{command.Value}");
                     }
                 }
                 ShowGroupBox(this.dialogGroupBox);
@@ -632,6 +641,16 @@ namespace PokeZork.CampaignEditor
                 this.cbxScenes.SelectedItem = $"{((Scene)campaignTreeView.SelectedNode.Tag).Id}-{((Scene)campaignTreeView.SelectedNode.Tag).Title}";
                 ShowGroupBox(this.dialogGroupBox);
             }
+        }
+
+        private void btnAddCommand_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDeleteCommand_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,10 +1,13 @@
-﻿using PokeZork.Common.Enum;
+﻿using PokeZork.Common;
+using PokeZork.Common.Enum;
 using PokeZork.Common.Extensions;
 using PokeZork.Common.Managers;
 using PokeZork.GameEngine.CampaignModels;
 using PokeZork.GameEngine.Interface;
 using PokeZork.GameEngine.Models;
 using PokeZork.TUIEngine;
+using PokeZork.Common.DiceMechanics;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
@@ -110,7 +113,7 @@ namespace PokeZork.GameEngine
 
                     if (loadedDialog.Commands.Any())
                     {
-                        //TODO: Process any commands on the dialog itself before displaying it.
+                        ProcessCommandsOnDialog(loadedDialog.Commands);
                     }
 
                     loadedDialog.Text = ProcessDialogLine(loadedDialog.Text);
@@ -168,26 +171,25 @@ namespace PokeZork.GameEngine
                         }
 
                         // Process commands on the chosen choice
-                        foreach (var command in chosenDialogChoice.Commands)
+                        var processedResult = ProcessCommandsOnDialog(chosenDialogChoice.Commands);
+
+                        if(processedResult.Status == DialogCommandProcessStatus.GameOver)
                         {
-                            switch (command.Key)
+                            this.IsGameRunning = false;
+                            return GameEndStatus.GameOver;
+                        }
+
+                        if(processedResult.Status == DialogCommandProcessStatus.DiceRoll)
+                        {
+                            if(processedResult.Value == null)
                             {
-                                case Command.GOTO:
-                                    if (!string.IsNullOrWhiteSpace(command.Value))
-                                        SetCurrentSection(command.Value);
-                                    break;
-
-                                case Command.SETCHARACTERTAG:
-                                    ApplyCharacterTag(command.Value);
-                                    break;
-
-                                case Command.GAMEOVER:
-                                    return GameEndStatus.GameOver;
-
-                                default:
-                                    // Unknown command
-                                    break;
+                                this._screen.Write("Dice roll command missing value.");
+                                this.IsGameRunning = false;
+                                return GameEndStatus.Error;
                             }
+                            Dice dice = new Dice(processedResult.Value);
+                            dice.Roll();
+                            this._screen.RollDiceScreen(dice);
                         }
 
                         // If no GOTO was present, fall back to NextDialog
@@ -273,6 +275,40 @@ namespace PokeZork.GameEngine
             {
                 return false;
             }
+        }
+
+        private DialogCommandProcessResult ProcessCommandsOnDialog(Dictionary<Command, string> commands)
+        {
+            DialogCommandProcessResult commandProcess = new DialogCommandProcessResult();
+            foreach (var command in commands)
+            {
+                switch (command.Key)
+                {
+                    case Command.GOTO:
+                        if (!string.IsNullOrWhiteSpace(command.Value))
+                        {
+                            SetCurrentSection(command.Value);
+                        }
+                        break;
+
+                    case Command.SETCHARACTERTAG:
+                        ApplyCharacterTag(command.Value);
+                        break;
+
+                    case Command.GAMEOVER:
+                        commandProcess.Status = DialogCommandProcessStatus.GameOver;
+                        break;
+                    case Command.ROLLDICE:
+                        commandProcess.Status = DialogCommandProcessStatus.DiceRoll;
+                        commandProcess.Value = command.Value;
+                        break;
+
+                    default:
+                        // Unknown command
+                        break;
+                }
+            }
+            return commandProcess;
         }
 
         //Looking for DialogVariable in dialogLine like @PLAYERNAME and replace with actual value.

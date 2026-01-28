@@ -1,4 +1,5 @@
 ﻿using PokeZork.Common;
+using PokeZork.Common.DiceMechanics;
 using PokeZork.Common.Enum;
 using System;
 using System.Collections.Generic;
@@ -253,6 +254,26 @@ namespace PokeZork.TUIEngine
                 System.Threading.Thread.Sleep(millisecondsDelayPerCharacter);
             }
             System.Console.WriteLine();
+        }
+
+        public void RollDiceScreen(Dice dice)
+        {
+            System.Console.WriteLine($"\n🎲 Rolling {dice.DiceNotation}\n");
+            
+            string[] rollingFrames = { "⚀", "⚁", "⚂", "⚃", "⚄", "⚅" };
+            for (int i = 0; i < 15; i++)
+            {
+                System.Console.Write("\r");
+                for (int d = 0; d < dice.AmountRolled; d++)
+                {
+                    System.Console.Write(rollingFrames[Random.Shared.Next(rollingFrames.Length)] + " ");
+                }
+                System.Threading.Thread.Sleep(100);
+            }
+
+            System.Console.WriteLine($"\n\nTotal: {dice.RolledValue}");
+            System.Console.WriteLine("Press any key to continue...");
+            System.Console.ReadKey();
         }
     }
 }

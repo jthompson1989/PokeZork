@@ -17,7 +17,7 @@ namespace PokeZork.GameEngine.CampaignModels
         internal List<DialogChoice> Choices { get; set; } = new List<DialogChoice>();
 
         //These are commands that run on dialog load, not choice selection
-        internal List<CommandEntry> Commands { get; set; } = new List<CommandEntry>();
+        internal Dictionary<Command, string> Commands { get; set; } = new Dictionary<Command, string>();
 
         internal DialogModel ConvertToDialogModel()
         {

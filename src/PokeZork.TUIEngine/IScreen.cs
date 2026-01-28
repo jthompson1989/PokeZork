@@ -1,4 +1,5 @@
 ﻿using PokeZork.Common;
+using PokeZork.Common.DiceMechanics;
 using PokeZork.Common.Enum;
 using System;
 using System.Collections.Generic;
@@ -111,5 +112,11 @@ namespace PokeZork.TUIEngine
         /// <param name="question">The yes/no question to present.</param>
         /// <returns><c>true</c> if the player answered yes; otherwise <c>false</c>.</returns>
         bool PrintYesNoQuestion(string question);
+
+        /// <summary>
+        /// Displays the dice rolling screen using the specified dice and value.
+        /// </summary>
+        /// <param name="dice">The dice to be rolled and displayed on the screen. Cannot be null.</param>
+        void RollDiceScreen(Dice dice);
     }
 }

@@ -5,6 +5,7 @@ using PokeZork.TUIEngine;
 using PokeZork.Common.Enum;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using PokeZork.Common.DiceMechanics;
 
 namespace PokeZork.Console
 {

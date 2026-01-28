@@ -36,9 +36,16 @@ namespace PokeZork.GameEngine.CampaignModels
                             {
                                 Id = dialogJson.Id,
                                 Text = dialogJson.Text,
-                                Commands = dialogJson.Commands,
                                 NextDialog = dialogJson.NextDialog ?? string.Empty
                             };
+                            foreach (var commandEntry in dialogJson.Commands)
+                            {
+                                var command = commandEntry.Command.ToCommandEnum();
+                                if (command.HasValue)
+                                {
+                                    engineDialog.Commands.Add(command.Value, commandEntry.Value);
+                                }
+                            }
                             foreach (var choiceJson in dialogJson.Choices)
                             {
                                 DialogChoice engineChoice = new DialogChoice
